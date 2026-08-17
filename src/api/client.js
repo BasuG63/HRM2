@@ -2,7 +2,7 @@ import axios from "axios";
 
 const client = axios.create({
 
-    baseURL: "https://hrm-aumation-backend.onrender.com",
+    baseURL: "https://hrm-automation-backend.onrender.com",
 
     headers: {
         "Content-Type": "application/json"
