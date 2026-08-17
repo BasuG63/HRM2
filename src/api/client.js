@@ -1,17 +1,24 @@
 import axios from "axios";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
+console.log("API BASE URL:", API_BASE_URL);
+
 const client = axios.create({
 
-    baseURL: "https://hrm-automation-backend.onrender.com",
+    baseURL: API_BASE_URL,
 
     headers: {
         "Content-Type": "application/json"
-    }
+    },
+
+    timeout: 15000
 
 });
 
 
 client.interceptors.request.use(
+
     (config) => {
 
         const token =
@@ -24,12 +31,19 @@ client.interceptors.request.use(
 
         }
 
-        return config;
+        console.log(
+            "API REQUEST:",
+            `${config.baseURL}${config.url}`
+        );
 
+        return config;
     },
 
-    (error) =>
-        Promise.reject(error)
+    (error) => {
+
+        return Promise.reject(error);
+    }
+
 );
 
 
