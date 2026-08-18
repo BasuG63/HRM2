@@ -1,8 +1,20 @@
 import axios from "axios";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL;
+// =====================================================
+// API BASE URL
+// =====================================================
 
-console.log("API BASE URL:", API_BASE_URL);
+const API_BASE_URL =
+    import.meta.env.VITE_API_URL;
+
+console.log(
+    "API BASE URL:",
+    API_BASE_URL
+);
+
+// =====================================================
+// AXIOS CLIENT
+// =====================================================
 
 const client = axios.create({
 
@@ -11,11 +23,13 @@ const client = axios.create({
     headers: {
         "Content-Type": "application/json"
     },
-
-    timeout: 15000
-
+ 
+    timeout: 30000
 });
 
+// =====================================================
+// REQUEST INTERCEPTOR
+// =====================================================
 
 client.interceptors.request.use(
 
@@ -46,5 +60,35 @@ client.interceptors.request.use(
 
 );
 
+// =====================================================
+// RESPONSE INTERCEPTOR
+// =====================================================
+
+client.interceptors.response.use(
+
+    (response) => {
+
+        console.log(
+            "API RESPONSE:",
+            response.status,
+            response.config.url
+        );
+
+        return response;
+    },
+
+    (error) => {
+
+        console.error(
+            "API ERROR:",
+            error.response?.status,
+            error.response?.data ||
+            error.message
+        );
+
+        return Promise.reject(error);
+    }
+
+);
 
 export default client;
